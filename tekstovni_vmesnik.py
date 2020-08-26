@@ -6,6 +6,8 @@ from model import Shramba
 
 moja_shramba = Shramba()
 
+#polnjenje začetne shrambe s testnimi podatki (kasneje gre to ven)
+
 knjige = moja_shramba.dodaj_vrsto('knjige')
 filmi = moja_shramba.dodaj_vrsto('filmi')
 
@@ -14,6 +16,14 @@ moja_shramba.dodaj_vnos(knjige, 'Harry Potter', 'J. K. Rowling', 'znanstvena fan
 moja_shramba.dodaj_vnos(filmi, 'To all the boys', 'nek režiser', 'romatična komedija', date(2019, 6, 5), '4')
 #konec začasnih podatkov, izbrisala bom, ko bo program končan
 #in se bo te podatke bralo iz datoteke
+
+#pomožne funkcije za vnos
+
+def dobro(niz):
+    return f'\033[1;94m{niz}\033[0m'
+
+def slabo(niz):
+    return f'\033[1;91m{niz}\033[0m'
 
 #napišemo pomožno funkcijo, ki preverja, da je vnešeno število, ko to zahtevamo
 def vnesi_stevilo(pozdrav):
@@ -35,6 +45,7 @@ def izberi(seznam):
         else:
             print(f'Izberi število med 1 in {len(seznam)}')
 
+#sestavni del uporabniškega vmesnika
 
 def glavni_meni():
     while True:
