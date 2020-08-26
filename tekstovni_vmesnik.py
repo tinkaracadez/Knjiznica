@@ -19,11 +19,12 @@ moja_shramba.dodaj_vnos(filmi, 'To all the boys', 'nek režiser', 'romatična ko
 
 #pomožne funkcije za vnos
 
-def dobro(niz):
-    return f'\033[1;94m{niz}\033[0m'
+#naslednji funkciji poskrbita za obarvanje besedila
+def uspeh(niz):
+    print('\033[1;94m' + niz + '\033[0m')
 
-def slabo(niz):
-    return f'\033[1;91m{niz}\033[0m'
+def napaka(niz):
+    print('\033[1;91m' + niz + '\033[0m')
 
 #napišemo pomožno funkcijo, ki preverja, da je vnešeno število, ko to zahtevamo
 def vnesi_stevilo(pozdrav):
@@ -32,7 +33,7 @@ def vnesi_stevilo(pozdrav):
         if stevilo.isdigit():
             return int(stevilo)
         else:
-            print(f'Prosim, da vneseš število!')
+            napaka(f'Prosim, da vneseš število!')
 
 #napišem funkcijo, ki izbira:
 def izberi(seznam):
@@ -68,7 +69,7 @@ def glavni_meni():
             print('Nasvidenje!')
             break   
         else:
-            print('Neveljavna izbira')
+            napaka('Neveljavna izbira')
 
 
 
@@ -82,12 +83,12 @@ def dodaj_vnos():
     datum = date.today()
     ocena = vnesi_stevilo('Ocena(1-5)> ')
     moja_shramba.dodaj_vnos(vrsta, naslov, avtor, zanr, datum, ocena)
-    print('Vnos uspešno dodan.')
+    uspeh('Vnos uspešno dodan.')
     
 def dodaj_vrsto():
     ime_vrste = input('Vnesi ime vrste> ')
     moja_shramba.dodaj_vrsto(ime_vrste)
-    print('Vrsta uspešno dodana!')
+    uspeh('Vrsta uspešno dodana!')
 
 
 def poglej_stanje():
