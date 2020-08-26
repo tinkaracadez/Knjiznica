@@ -35,48 +35,38 @@ def vnesi_stevilo(pozdrav):
         else:
             napaka(f'Prosim, da vneseš število!')
 
-#napišem funkcijo, ki izbira:
+#lepša oblika funkcije za kasnejšo uporabo
+#podčrtaj _ v oklepaju bo nadomestila neka funkcija
 def izberi(seznam):
-    for indeks, element in enumerate(seznam, 1):
-        print(f'{indeks}) {element}')
+    for indeks, (oznaka, _) in enumerate(seznam, 1):
+        print(f'{indeks}) {oznaka}')
     while True:
         izbira = vnesi_stevilo('> ')
-        if  1 <= izbira <= len(seznam):
-            return seznam[izbira - 1]
+        if 1 <= izbira <= len(seznam):
+            _, element = seznam[izbira - 1]
+            return element
         else:
-            print(f'Izberi število med 1 in {len(seznam)}')
+            napaka(f'Izberi število med 1 in {len(seznam)}')
 
 #sestavni del uporabniškega vmesnika
 
 def glavni_meni():
     while True:
         #uporabniku ponudi možnosti
-        print('''
-        Kaj bi rad naredil?
-        1) dodal vnos
-        2) dodal vrsto
-        3) pogledal stanje
-        4) šel iz programa
-        ''')
-        izbira = input('> ')
-        if izbira == '1':
-            dodaj_vnos()
-        elif izbira == '2':
-            dodaj_vrsto()
-        elif izbira == '3':
-            poglej_stanje()
-        elif izbira == '4':
-            print('Nasvidenje!')
-            break   
-        else:
-            napaka('Neveljavna izbira')
-
-
+        moznosti = [
+            ('dodal vnos', dodaj_vnos),
+            ('dodal vrsto', dodaj_vrsto),
+            ('pogledal stanje', poglej_stanje)
+        ]
+        print('Kaj bi rad naredil?')
+        izbira = izberi(moznosti)
+        izbira()
+        
 
 def dodaj_vnos():
     #napisali bomo funkcijo, ki izbira
     print('Vrsta:')
-    vrsta = izberi(moja_shramba.vrste) 
+    vrsta = izberi([(vrsta.ime, vrsta) for vrsta in moja_shramba.vrste]) 
     naslov = input('Naslov> ')
     avtor = input('Avtor> ')
     zanr = input('Žanr> ')
