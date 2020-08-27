@@ -10,17 +10,25 @@ class Uporabnik:
 class Shramba:
     def __init__(self):
         self.vrste = []
+        self.vnosi = []
 
     def dodaj_vrsto(self, ime):
-        return Vrsta(ime, self)
+        for vrsta in self.vrste:
+            if vrsta.ime == ime:
+                raise ValueError('Vrsta že obstaja!')  #sprožimo izjemo         
+        nova = Vrsta(ime, self)
+        self.vrste.append(nova)
+        return nova
         #self.vrste.append(vrsta) (ni treba, ker je v vrstici zgoraj v oklepaju self)
 
     def dodaj_vnos(self, vrsta, naslov, avtor, zanr, datum, ocena):
         #preverimo, če kdo hoče dodati nekaj, kar ni moje
         if vrsta.shramba != self:
-            print('Tole pa ni dobro!')
+            raise ValueError(f'Vrsta {vrsta} ne spada v to shrambo!')
         else:
-            return Vnos(vrsta, naslov, avtor, zanr, datum, ocena)
+            nov = Vnos(vrsta, naslov, avtor, zanr, datum, ocena)
+            self.vnosi.append(nov)
+            return nov
 
     def __str__(self):
         return f'Vrste: {self.vrste}'
@@ -28,6 +36,7 @@ class Shramba:
     def v_slovar(self):
         return {
             'vrste': [vrsta.v_slovar() for vrsta in self.vrste],
+            'vnosi': [vnos.v_slovar() for vnos in self.vnosi],
         }
 
 
@@ -35,8 +44,7 @@ class Vrsta:
     def __init__(self, ime, shramba):
         self.ime = ime
         self.shramba = shramba
-        self.shramba.vrste.append(self)
-        self.vnosi = []
+        #self.vnosi = []
 
     def __repr__(self):
         return f'<Vrsta: {self}>'
@@ -51,14 +59,12 @@ class Vrsta:
         return {
             'ime': self.ime,
             #'shramba': self.shramba,
-            'vnosi': [vnos.v_slovar() for vnos in self.vnosi],
         }
 
 
 class Vnos:
     def __init__(self, vrsta, naslov, avtor, zanr, datum, ocena):
         self.vrsta = vrsta
-        self.vrsta.vnosi.append(self)
         self.naslov = naslov
         self.avtor = avtor
         self.zanr = zanr

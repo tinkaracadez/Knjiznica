@@ -1,38 +1,36 @@
 {
     "vrste": [
         {
-            "ime": "knjige",
-            "vnosi": [
-                {
-                    "vrsta": "knjige",
-                    "naslov": "Krive so zvezde",
-                    "avtor": "John Green",
-                    "zanr": "ljubezenski roman",
-                    "datum": "2019-05-05",
-                    "ocena": "4"
-                },
-                {
-                    "vrsta": "knjige",
-                    "naslov": "Harry Potter",
-                    "avtor": "J. K. Rowling",
-                    "zanr": "znanstvena fantastika",
-                    "datum": "2020-01-03",
-                    "ocena": "5"
-                }
-            ]
+            "ime": "knjige"
         },
         {
-            "ime": "filmi",
-            "vnosi": [
-                {
-                    "vrsta": "filmi",
-                    "naslov": "To all the boys",
-                    "avtor": "nek reï¿½iser",
-                    "zanr": "romatiï¿½na komedija",
-                    "datum": "2019-06-05",
-                    "ocena": "4"
-                }
-            ]
+            "ime": "filmi"
+        }
+    ],
+    "vnosi": [
+        {
+            "vrsta": "knjige",
+            "naslov": "Krive so zvezde",
+            "avtor": "John Green",
+            "zanr": "ljubezenski roman",
+            "datum": "2019-05-05",
+            "ocena": "4"
+        },
+        {
+            "vrsta": "knjige",
+            "naslov": "Harry Potter",
+            "avtor": "J. K. Rowling",
+            "zanr": "znanstvena fantastika",
+            "datum": "2020-01-03",
+            "ocena": "5"
+        },
+        {
+            "vrsta": "filmi",
+            "naslov": "To all the boys",
+            "avtor": "nek režiser",
+            "zanr": "romatièna komedija",
+            "datum": "2019-06-05",
+            "ocena": "4"
         }
     ]
 }
