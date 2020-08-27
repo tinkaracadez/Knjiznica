@@ -19,10 +19,16 @@ class Shramba:
         #preverimo, če kdo hoče dodati nekaj, kar ni moje
         if vrsta.shramba != self:
             print('Tole pa ni dobro!')
-        return Vnos(vrsta, naslov, avtor, zanr, datum, ocena)
+        else:
+            return Vnos(vrsta, naslov, avtor, zanr, datum, ocena)
 
     def __str__(self):
         return f'Vrste: {self.vrste}'
+
+    def v_slovar(self):
+        return {
+            'vrste': [vrsta.v_slovar() for vrsta in self.vrste],
+        }
 
 
 class Vrsta:
@@ -41,6 +47,13 @@ class Vrsta:
     def stanje(self):
         return [vnos.naslov for vnos in self.vnosi]
 
+    def v_slovar(self):
+        return {
+            'ime': self.ime,
+            #'shramba': self.shramba,
+            'vnosi': [vnos.v_slovar() for vnos in self.vnosi],
+        }
+
 
 class Vnos:
     def __init__(self, vrsta, naslov, avtor, zanr, datum, ocena):
@@ -51,5 +64,16 @@ class Vnos:
         self.zanr = zanr
         self.datum = datum
         self.ocena = ocena
+
+    #vsak vnos bomo dali v nek slovar, da ga bomo nato s pomočjo jsona vpisali v datoteko
+    def v_slovar(self):
+        return {
+            'vrsta': self.vrsta.ime,
+            'naslov': self.naslov,
+            'avtor': self.avtor,
+            'zanr': self.zanr,
+            'datum': self.datum,
+            'ocena': self.ocena,
+        }
 
 
