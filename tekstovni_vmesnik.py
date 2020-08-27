@@ -49,18 +49,23 @@ def izberi(seznam):
             napaka(f'Izberi število med 1 in {len(seznam)}')
 
 #sestavni del uporabniškega vmesnika
-
 def glavni_meni():
     while True:
-        #uporabniku ponudi možnosti
-        moznosti = [
-            ('dodal vnos', dodaj_vnos),
-            ('dodal vrsto', dodaj_vrsto),
-            ('pogledal stanje', poglej_stanje)
-        ]
-        print('Kaj bi rad naredil?')
-        izbira = izberi(moznosti)
-        izbira()
+        try:
+            #uporabniku ponudi možnosti
+            moznosti = [
+                ('dodal vnos', dodaj_vnos),
+                ('dodal vrsto', dodaj_vrsto),
+                ('pogledal stanje', poglej_stanje)
+            ]
+            print('Kaj bi rad naredil?')
+            izbira = izberi(moznosti)
+            izbira()
+        except ValueError as e:
+            napaka(e.args[0])
+        except KeyboardInterrupt: #če uporabnik pritisne ctrl+C
+            print('Nasvidenje!')
+            return
         
 
 def dodaj_vnos():
