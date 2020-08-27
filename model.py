@@ -72,7 +72,7 @@ class Vnos:
             'naslov': self.naslov,
             'avtor': self.avtor,
             'zanr': self.zanr,
-            'datum': self.datum,
+            'datum': str(self.datum),
             'ocena': self.ocena,
         }
 
