@@ -7,79 +7,91 @@ class Uporabnik:
         self.shramba = shramba
 
 
-class Shramba:
+class Knjiznica:
     def __init__(self):
         self.vrste = []
         self.vnosi = []
+        self._vrste_po_imenih = {}
+        self._vnosi_po_vrstah = {}
 
     def dodaj_vrsto(self, ime):
-        for vrsta in self.vrste:
-            if vrsta.ime == ime:
-                raise ValueError('Vrsta že obstaja!')  #sprožimo izjemo         
+        if ime in self._vrste_po_imenih:
+            raise ValueError('Vrsta s tem imenom že obstaja!')         
         nova = Vrsta(ime, self)
         self.vrste.append(nova)
+        self._vrste_po_imenih[ime] = nova
+        self._vnosi_po_vrstah[nova] = []
         return nova
-        #self.vrste.append(vrsta) (ni treba, ker je v vrstici zgoraj v oklepaju self)
 
-    def dodaj_vnos(self, vrsta, naslov, avtor, zanr, datum, ocena):
-        #preverimo, če kdo hoče dodati nekaj, kar ni moje
-        if vrsta.shramba != self:
-            raise ValueError(f'Vrsta {vrsta} ne spada v to shrambo!')
-        else:
-            nov = Vnos(vrsta, naslov, avtor, zanr, datum, ocena)
-            self.vnosi.append(nov)
-            return nov
+    def dodaj_vnos(self, naslov, avtor, vrsta, datum):
+        self._preveri_vrsto(vrsta)
+        nov = Vnos(naslov, avtor, vrsta, datum)
+        self.vnosi.append(nov)
+        self._vnosi_po_vrstah[vrsta].append(nov)
+        return nov
 
-    def __str__(self):
-        return f'Vrste: {self.vrste}'
+    def poisci_vrsto(self, ime):
+        return self._vrste_po_imenih[ime]
 
-    def v_slovar(self):
+    def vnosi_vrste(self, vrsta):
+        yield from self._vnosi_po_vrstah[vrsta]
+
+    def _preveri_vrsto(self, vrsta):
+        if vrsta.knjiznica != self:
+            raise ValueError(f'Vrsta {vrsta} ne spada v to knjižnico!')
+
+    def slovar_s_stanjem(self):
         return {
-            'vrste': [vrsta.v_slovar() for vrsta in self.vrste],
-            'vnosi': [vnos.v_slovar() for vnos in self.vnosi],
+            'vrste': [{
+                'ime': vrsta.ime,
+            } for vrsta in self.vrste],
+            'vnosi': [{
+                'naslov': vnos.naslov,
+                'avtor': vnos.avtor,
+                'vrsta': vnos.vrsta.ime,
+                'datum': str(vnos.datum),
+            } for vnos in self.vnosi],
         }
+
+
+
+#DODAJ @CLASSMETHOD ?! IN NEKO FUNKCIJO nalozi_iz_slovarja
+#povezano z uporabnikom?
+
+
+
+    def shrani_stanje(self, ime_datoteke):
+        with open(ime_datoteke, 'w') as datoteka:
+            json.dump(self.slovar_s_stanjem(), datoteka, ensure_ascii=False, indent=4)
+
+
+
+#DODAJ @CLASSMETHOD ?! IN ŠE ENO FUNKCIJO nalozi_stanje
+#povezano z uporabnikom? +CLS
+
 
 
 class Vrsta:
-    def __init__(self, ime, shramba):
+    def __init__(self, ime, knjiznica):
         self.ime = ime
-        self.shramba = shramba
-        #self.vnosi = []
-
-    def __repr__(self):
-        return f'<Vrsta: {self}>'
-
-    def __str__(self):
-        return f'{self.ime}: {self.stanje()}'
+        self.knjiznica = knjiznica
 
     def stanje(self):
-        return [vnos.naslov for vnos in self.vnosi]
+        return [vnos.naslov for vnos in self.vnosi()]
 
-    def v_slovar(self):
-        return {
-            'ime': self.ime,
-            #'shramba': self.shramba,
-        }
+    def vnosi(self):
+        yield from self.knjiznica.vnosi_vrste(self)
 
 
 class Vnos:
-    def __init__(self, vrsta, naslov, avtor, zanr, datum, ocena):
-        self.vrsta = vrsta
+    def __init__(self, naslov, avtor, vrsta, datum):
         self.naslov = naslov
         self.avtor = avtor
-        self.zanr = zanr
+        self.vrsta = vrsta
         self.datum = datum
-        self.ocena = ocena
 
-    #vsak vnos bomo dali v nek slovar, da ga bomo nato s pomočjo jsona vpisali v datoteko
-    def v_slovar(self):
-        return {
-            'vrsta': self.vrsta.ime,
-            'naslov': self.naslov,
-            'avtor': self.avtor,
-            'zanr': self.zanr,
-            'datum': str(self.datum),
-            'ocena': self.ocena,
-        }
+    #neka funkcija glede datumov?
+    #def __lt__(self, other):
+    #    return self.datum < other.datum
 
 

@@ -1,15 +1,14 @@
 import json
 from datetime import date
-from model import Shramba
+from model import Knjiznica
 
-moja_shramba = Shramba()
+knjiznica = Knjiznica()
 
-knjige = moja_shramba.dodaj_vrsto('knjige')
-filmi = moja_shramba.dodaj_vrsto('filmi')
+knjige = knjiznica.dodaj_vrsto('knjige')
+filmi = knjiznica.dodaj_vrsto('filmi')
 
-moja_shramba.dodaj_vnos(knjige, 'Krive so zvezde', 'John Green', 'ljubezenski roman', date(2019, 5, 5), '4')
-moja_shramba.dodaj_vnos(knjige, 'Harry Potter', 'J. K. Rowling', 'znanstvena fantastika', date(2020, 1, 3), '5')
-moja_shramba.dodaj_vnos(filmi, 'To all the boys', 'nek režiser', 'romatična komedija', date(2019, 6, 5), '4')
+knjiznica.dodaj_vnos('Krive so zvezde', 'John Green', 'ljubezenski roman', date(2019, 5, 5))
+knjiznica.dodaj_vnos('Harry Potter', 'J. K. Rowling', 'znanstvena fantastika', date(2020, 1, 3))
 
 stanje = moja_shramba.v_slovar()
 with open('stanje.json', 'w') as datoteka:

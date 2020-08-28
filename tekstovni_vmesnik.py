@@ -1,42 +1,53 @@
-from model import Shramba
-
-#dokler testiram, v trenutno datoteko kopiram naslednje podatke:
 from datetime import date
-from model import Shramba
+from model import Knjiznica
 
-moja_shramba = Shramba()
+#velike tiskane črke uporabljamo za konstante
+LOGO = '''
+  _  __      _ _           _           
+ | |/ /     (_|_)         (_)          
+ | ' / _ __  _ _ _____ __  _  ___ __ _ 
+ |  < | '_ \| | |_  / '_ \| |/ __/ _` |
+ | . \| | | | | |/ /| | | | | (_| (_| |
+ |_|\_\_| |_| |_/___|_| |_|_|\___\__,_|
+           _/ |                        
+          |__/                         
+'''
+DATOTEKA_S_STANJEM = 'stanje.json'
 
-#polnjenje začetne shrambe s testnimi podatki (kasneje gre to ven)
-
-knjige = moja_shramba.dodaj_vrsto('knjige')
-filmi = moja_shramba.dodaj_vrsto('filmi')
-
-moja_shramba.dodaj_vnos(knjige, 'Krive so zvezde', 'John Green', 'ljubezenski roman', date(2019, 5, 5), '5')
-moja_shramba.dodaj_vnos(knjige, 'Harry Potter', 'J. K. Rowling', 'znanstvena fantastika', date(2020, 1, 3), '5')
-moja_shramba.dodaj_vnos(filmi, 'To all the boys', 'nek režiser', 'romatična komedija', date(2019, 6, 5), '4')
-#konec začasnih podatkov, izbrisala bom, ko bo program končan
-#in se bo te podatke bralo iz datoteke
+#naročimo programu, naj v shrambo da podatke iz jsona (naloži stanje iz datoteke)
+#če mu to ne uspe, naj bo shramba prazna
+#try:
+    #knjiznica = Knjiznica.nalozi_stanje(DATOTEKA_S_STANJEM)
+#except FileNotFoundError:
+knjiznica = Knjiznica()
 
 #pomožne funkcije za vnos
 
-#naslednji funkciji poskrbita za obarvanje besedila
+def krepko(niz):
+    return f'\033[1m{niz}\033[0m'
+
 def uspeh(niz):
-    print('\033[1;94m' + niz + '\033[0m')
+    return f'\033[1;94m{niz}\033[0m'
 
 def napaka(niz):
-    print('\033[1;91m' + niz + '\033[0m')
+    return f'\033[1;91m{niz}\033[0m'
 
-#napišemo pomožno funkcijo, ki preverja, da je vnešeno število, ko to zahtevamo
+
+
+#tu bi lahko dodala funkciji prikaz_naslova in prikaz_vrste
+#če bi želela, da se le-to drugače obarva
+
+
+
 def vnesi_stevilo(pozdrav):
     while True:
-        stevilo = input(pozdrav)
-        if stevilo.isdigit():
+        try:
+            stevilo = input(pozdrav)
             return int(stevilo)
-        else:
-            napaka(f'Prosim, da vneseš število!')
+        except ValueError:
+            print(napaka(f'Prosim, da vneseš število!'))
 
-#lepša oblika funkcije za kasnejšo uporabo
-#podčrtaj _ v oklepaju bo nadomestila neka funkcija
+
 def izberi(seznam):
     for indeks, (oznaka, _) in enumerate(seznam, 1):
         print(f'{indeks}) {oznaka}')
@@ -46,48 +57,72 @@ def izberi(seznam):
             _, element = seznam[izbira - 1]
             return element
         else:
-            napaka(f'Izberi število med 1 in {len(seznam)}')
+            print(napaka(f'Izberi število med 1 in {len(seznam)}'))
 
-#sestavni del uporabniškega vmesnika
+
+#če bi imela funkcijo za prikaz vrste, bi jo uporabila tu
+#def izberi_vrsto(vrste):
+    #return izberi([vrste])
+
+
+
+#sestavni deli uporabniškega vmesnika
+
+
 def glavni_meni():
+    print(krepko(LOGO))
+    print(krepko('Dobrodošli v programu knjižnica!'))
+    print('Za izhod pritisnite Ctrl-C.')
     while True:
         try:
-            #uporabniku ponudi možnosti
+            print(80* '=')
+            print()
+            print(krepko('Kaj želite narediti?'))
             moznosti = [
-                ('dodal vnos', dodaj_vnos),
-                ('dodal vrsto', dodaj_vrsto),
-                ('pogledal stanje', poglej_stanje)
+                ('dodati vnos', dodaj_vnos),
+                ('dodati vrsto', dodaj_vrsto),
+                ('pogledati stanje', poglej_stanje),
+                #('poiskati že vnešeno delo', poisci_vnos),
             ]
-            print('Kaj bi rad naredil?')
             izbira = izberi(moznosti)
+            print(80* '-')
             izbira()
+            print()
+            input('Pritisnite Enter za shranjevanje in vrnitev v osnovni meni...')
+            knjiznica.shrani_stanje(DATOTEKA_S_STANJEM)
         except ValueError as e:
-            napaka(e.args[0])
+            print(napaka(e.args[0]))
         except KeyboardInterrupt: #če uporabnik pritisne ctrl+C
+            print()
             print('Nasvidenje!')
             return
         
 
 def dodaj_vnos():
-    #napisali bomo funkcijo, ki izbira
-    print('Vrsta:')
-    vrsta = izberi([(vrsta.ime, vrsta) for vrsta in moja_shramba.vrste]) 
     naslov = input('Naslov> ')
     avtor = input('Avtor> ')
-    zanr = input('Žanr> ')
-    datum = date.today()
-    ocena = vnesi_stevilo('Ocena(1-5)> ')
-    moja_shramba.dodaj_vnos(vrsta, naslov, avtor, zanr, datum, ocena)
-    uspeh('Vnos uspešno dodan.')
+    print('Vrsta:')
+    vrsta = izberi([(vrsta.ime, vrsta) for vrsta in knjiznica.vrste]) 
+    datum = date.today().strftime('%Y-%m-%d')
+    knjiznica.dodaj_vnos(naslov, avtor, vrsta, datum)
+    print(uspeh('Vnos uspešno dodan.'))
     
+
 def dodaj_vrsto():
     ime_vrste = input('Vnesi ime vrste> ')
-    moja_shramba.dodaj_vrsto(ime_vrste)
-    uspeh('Vrsta uspešno dodana!')
+    knjiznica.dodaj_vrsto(ime_vrste)
+    print(uspeh('Vrsta uspešno dodana!'))
 
 
 def poglej_stanje():
-    for vrsta in moja_shramba.vrste:
-        print(vrsta)
+    for vrsta in knjiznica.vrste:
+        print(krepko('VRSTA:'))
+        print(f'- {vrsta.ime}')
+        print(krepko('Vnosi:'))
+        for vnos in knjiznica.vnosi:
+            if vnos.vrsta == vrsta:
+                print(f'- {vnos.naslov}')
+        print()
+
 
 glavni_meni()
