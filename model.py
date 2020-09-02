@@ -53,22 +53,29 @@ class Knjiznica:
             } for vnos in self.vnosi],
         }
 
-
-
-#DODAJ @CLASSMETHOD ?! IN NEKO FUNKCIJO nalozi_iz_slovarja
-#povezano z uporabnikom?
-
-
+    @classmethod
+    def nalozi_iz_slovarja(cls, slovar_s_stanjem):
+        knjiznica = cls()
+        for vrsta in slovar_s_stanjem['vrste']:
+            dodaj_vrsto = knjiznica.dodaj_vrsto(vrsta['ime'])
+        for vnos in slovar_s_stanjem['vnosi:']:
+            knjiznica.dodaj_vnos(
+                vnos['naslov'],
+                vnos['avtor'],
+                knjiznica._vrste_po_imenih[vnos['vrsta']],
+                vnos['datum']
+            )
+        return knjiznica
 
     def shrani_stanje(self, ime_datoteke):
         with open(ime_datoteke, 'w') as datoteka:
             json.dump(self.slovar_s_stanjem(), datoteka, ensure_ascii=False, indent=4)
 
-
-
-#DODAJ @CLASSMETHOD ?! IN ŠE ENO FUNKCIJO nalozi_stanje
-#povezano z uporabnikom? +CLS
-
+    @classmethod
+    def nalozi_stanje(cls, ime_datoteke):
+        with open(ime_datoteke) as datoteka:
+            slovar_s_stanjem = json.load(datoteka)
+        return cls.nalozi_iz_slovarja(slovar_s_stanjem)
 
 
 class Vrsta:
@@ -82,7 +89,7 @@ class Vrsta:
     def vnosi(self):
         yield from self.knjiznica.vnosi_vrste(self)
 
-
+    
 class Vnos:
     def __init__(self, naslov, avtor, vrsta, datum):
         self.naslov = naslov
@@ -90,8 +97,7 @@ class Vnos:
         self.vrsta = vrsta
         self.datum = datum
 
-    #neka funkcija glede datumov?
-    #def __lt__(self, other):
-    #    return self.datum < other.datum
+    def __lt__(self, other):
+        return self.datum < other.datum
 
 
