@@ -58,7 +58,7 @@ class Knjiznica:
         knjiznica = cls()
         for vrsta in slovar_s_stanjem['vrste']:
             dodaj_vrsto = knjiznica.dodaj_vrsto(vrsta['ime'])
-        for vnos in slovar_s_stanjem['vnosi:']:
+        for vnos in slovar_s_stanjem['vnosi']:
             knjiznica.dodaj_vnos(
                 vnos['naslov'],
                 vnos['avtor'],
@@ -84,7 +84,7 @@ class Vrsta:
         self.knjiznica = knjiznica
 
     def stanje(self):
-        return [vnos.naslov for vnos in self.vnosi()]
+        return ', '.join([vnos.naslov for vnos in self.vnosi()])
 
     def vnosi(self):
         yield from self.knjiznica.vnosi_vrste(self)
