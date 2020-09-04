@@ -1,0 +1,7 @@
+<label for="{{id}}">{{oznaka}}: </label>
+
+<select name="{{id}}" id="{{id}}">
+    % for vrsta in knjiznica.vrste:
+    <option value="{{vrsta.ime}}">{{vrsta.ime}}</option>
+    % end 
+</select>
