@@ -1,7 +1,6 @@
 from datetime import date
 from model import Knjiznica
 
-#velike tiskane črke uporabljamo za konstante
 LOGO = '''
   _  __      _ _           _           
  | |/ /     (_|_)         (_)          
@@ -12,14 +11,12 @@ LOGO = '''
            _/ |                        
           |__/                         
 '''
-DATOTEKA_S_STANJEM = 'stanje.json'
+DATOTEKA_S_STANJEM = 'stanje.json'  
 
-#naročimo programu, naj v shrambo da podatke iz jsona (naloži stanje iz datoteke)
-#če mu to ne uspe, naj bo shramba prazna
-#try:
-    #knjiznica = Knjiznica.nalozi_stanje(DATOTEKA_S_STANJEM)
-#except FileNotFoundError:
-knjiznica = Knjiznica()
+try:
+    knjiznica = Knjiznica.nalozi_stanje(DATOTEKA_S_STANJEM)
+except FileNotFoundError:
+    knjiznica = Knjiznica()
 
 #pomožne funkcije za vnos
 
@@ -32,12 +29,8 @@ def uspeh(niz):
 def napaka(niz):
     return f'\033[1;91m{niz}\033[0m'
 
-
-
 #tu bi lahko dodala funkciji prikaz_naslova in prikaz_vrste
 #če bi želela, da se le-to drugače obarva
-
-
 
 def vnesi_stevilo(pozdrav):
     while True:
@@ -57,7 +50,7 @@ def izberi(seznam):
             _, element = seznam[izbira - 1]
             return element
         else:
-            print(napaka(f'Izberi število med 1 in {len(seznam)}'))
+            print(napaka(f'Izberi število med 1 in {len(seznam)}.'))
 
 
 #če bi imela funkcijo za prikaz vrste, bi jo uporabila tu
@@ -82,7 +75,6 @@ def glavni_meni():
                 ('dodati vnos', dodaj_vnos),
                 ('dodati vrsto', dodaj_vrsto),
                 ('pogledati stanje', poglej_stanje),
-                #('poiskati že vnešeno delo', poisci_vnos),
             ]
             izbira = izberi(moznosti)
             print(80* '-')
@@ -97,6 +89,7 @@ def glavni_meni():
             print('Nasvidenje!')
             return
         
+#dodaj funkcijo POVZETEK_STANJA, ki se izpiše na vrhu glavnega menija
 
 def dodaj_vnos():
     naslov = input('Naslov> ')
