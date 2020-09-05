@@ -1,0 +1,33 @@
+{
+    "vrste": [
+        {
+            "ime": "romanticni"
+        },
+        {
+            "ime": "kriminalke"
+        },
+        {
+            "ime": "pustolovski"
+        }
+    ],
+    "vnosi": [
+        {
+            "naslov": "Krive so zvezde",
+            "avtor": "John Green",
+            "vrsta": "romanticni",
+            "datum": "2020-09-05"
+        },
+        {
+            "naslov": "Inferno",
+            "avtor": "Dan Brown",
+            "vrsta": "pustolovski",
+            "datum": "2020-09-05"
+        },
+        {
+            "naslov": "Umori v Fjallbacki",
+            "avtor": "Camilla Lackberg",
+            "vrsta": "kriminalke",
+            "datum": "2020-09-05"
+        }
+    ]
+}

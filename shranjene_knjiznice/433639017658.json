@@ -1,0 +1,24 @@
+{
+    "vrste": [
+        {
+            "ime": "romanticni"
+        },
+        {
+            "ime": "romantièni"
+        }
+    ],
+    "vnosi": [
+        {
+            "naslov": "Krive so zvezde",
+            "avtor": "John Green",
+            "vrsta": "romanticni",
+            "datum": "2020-09-05"
+        },
+        {
+            "naslov": "Varno zavetje",
+            "avtor": "Nicholas Sparks",
+            "vrsta": "romantièni",
+            "datum": "2020-09-05"
+        }
+    ]
+}

@@ -1,36 +1,33 @@
 {
     "vrste": [
         {
-            "ime": "knjige"
+            "ime": "kriminalka"
         },
         {
-            "ime": "filmi"
+            "ime": "romantièni"
+        },
+        {
+            "ime": "zgodovinski"
         }
     ],
     "vnosi": [
         {
-            "vrsta": "knjige",
+            "naslov": "Umori v Fjallbacki",
+            "avtor": "Camilla Lackberg",
+            "vrsta": "kriminalka",
+            "datum": "2020-08-28"
+        },
+        {
+            "naslov": "Varno zavetje",
+            "avtor": "Nicholas Sparks",
+            "vrsta": "romantièni",
+            "datum": "2020-08-28"
+        },
+        {
             "naslov": "Krive so zvezde",
             "avtor": "John Green",
-            "zanr": "ljubezenski roman",
-            "datum": "2019-05-05",
-            "ocena": "4"
-        },
-        {
-            "vrsta": "knjige",
-            "naslov": "Harry Potter",
-            "avtor": "J. K. Rowling",
-            "zanr": "znanstvena fantastika",
-            "datum": "2020-01-03",
-            "ocena": "5"
-        },
-        {
-            "vrsta": "filmi",
-            "naslov": "To all the boys",
-            "avtor": "nek režiser",
-            "zanr": "romatièna komedija",
-            "datum": "2019-06-05",
-            "ocena": "4"
+            "vrsta": "romantièni",
+            "datum": "2020-08-28"
         }
     ]
 }
