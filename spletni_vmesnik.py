@@ -5,6 +5,7 @@ import random
 from model import Uporabnik,Knjiznica
 
 uporabniki = {}
+skrivnost = 'HUDA SKRIVNOST'
 
 for ime_datoteke in os.listdir('uporabniki'):
     uporabnik = Uporabnik.nalozi_stanje(os.path.join('uporabniki', ime_datoteke))
@@ -16,7 +17,7 @@ def poisci_vrsto(ime_polja):
     return knjiznica.poisci_vrsto(ime_vrste)
 
 def trenutni_uporabnik():
-    uporabnisko_ime = bottle.request.get_cookie('uporabnisko_ime')
+    uporabnisko_ime = bottle.request.get_cookie('uporabnisko_ime', secret=skrivnost)
     if uporabnisko_ime is None:
         bottle.redirect('/prijava/')
     return uporabniki[uporabnisko_ime]
@@ -26,7 +27,7 @@ def knjiznica_uporabnika():
 
 def shrani_trenutnega_uporabnika():
     uporabnik = trenutni_uporabnik()
-    uporabnik.shrani_stanje(os.path.join('uporabniki ', f'{uporabnik.uporabnisko_ime}.json'))
+    uporabnik.shrani_stanje(os.path.join('uporabniki', f'{uporabnik.uporabnisko_ime}.json'))
 
 @bottle.get('/')
 def zacetna_stran():
@@ -49,10 +50,23 @@ def prijava_get():
 @bottle.post('/prijava/')
 def prijava_post():
     uporabnisko_ime = bottle.request.forms['uporabnisko_ime']
-    zasifrirano_geslo = bottle.request.forms['zasifrirano_geslo']
-    uporabnik = uporabniki[uporabnisko_ime]
-    uporabnik.preveri_geslo(zasifrirano_geslo)
-    bottle.response.set_cookie('uporabnisko_ime', uporabnisko_ime, path='/')
+    geslo = bottle.request.forms['geslo']
+    if 'nov_racun' in bottle.request.forms and uporabnisko_ime not in uporabniki:
+        uporabnik = Uporabnik(
+            uporabnisko_ime,
+            geslo,
+            Knjiznica()
+        )
+        uporabniki[uporabnisko_ime] = uporabnik
+    else:
+        uporabnik = uporabniki[uporabnisko_ime]
+        uporabnik.preveri_geslo(geslo)
+    bottle.response.set_cookie('uporabnisko_ime', uporabnik.uporabnisko_ime, path='/', secret=skrivnost)
+    bottle.redirect('/')
+
+@bottle.post('/odjava/')
+def odjava():
+    bottle.response.delete_cookie('uporabnisko_ime', path='/')
     bottle.redirect('/')
 
 @bottle.post('/dodaj-vnos/')
