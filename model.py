@@ -1,19 +1,19 @@
 import json
 
 class Uporabnik:
-    def __init__(self, uporabnisko_ime, zasifrirano_geslo, knjiznica):
+    def __init__(self, uporabnisko_ime, geslo, knjiznica):
         self.uporabnisko_ime = uporabnisko_ime
-        self.zasifrirano_geslo = zasifrirano_geslo
+        self.geslo = geslo
         self.knjiznica = knjiznica
     
-    def preveri_geslo(self, zasifrirano_geslo):
-        if self.zasifrirano_geslo != zasifrirano_geslo:
+    def preveri_geslo(self, geslo):
+        if self.geslo != geslo:
             raise ValueError('Geslo je napačno!')
 
     def shrani_stanje(self, ime_datoteke):
         slovar_stanja = {
             'uporabnisko_ime': self.uporabnisko_ime,
-            'zasifrirano_geslo': self.zasifrirano_geslo,
+            'geslo': self.geslo,
             'knjiznica': self.knjiznica.slovar_s_stanjem(),
         }
         with open(ime_datoteke, 'w') as datoteka:
@@ -24,9 +24,9 @@ class Uporabnik:
         with open(ime_datoteke) as datoteka:
             slovar_stanja = json.load(datoteka)
         uporabnisko_ime = slovar_stanja['uporabnisko_ime']
-        zasifrirano_geslo = slovar_stanja['zasifrirano_geslo']
+        geslo = slovar_stanja['geslo']
         knjiznica = Knjiznica.nalozi_iz_slovarja(slovar_stanja['knjiznica'])
-        return cls(uporabnisko_ime, zasifrirano_geslo, knjiznica)
+        return cls(uporabnisko_ime, geslo, knjiznica)
 
 class Knjiznica:
     def __init__(self):

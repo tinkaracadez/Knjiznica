@@ -1,6 +1,6 @@
 {
     "uporabnisko_ime": "tinkara",
-    "zasifrirano_geslo": "geslo",
+    "geslo": "geslo",
     "knjiznica": {
     "vrste": [
         {
