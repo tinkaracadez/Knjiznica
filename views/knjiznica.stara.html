@@ -1,0 +1,68 @@
+<h1><pre>
+  _  __      _ _           _           
+ | |/ /     (_|_)         (_)          
+ | ' / _ __  _ _ _____ __  _  ___ __ _ 
+ |  | | '_ \| | |_  / '_ \| |/ __/ _` |
+ | . \| | | | | |/ /| | | | | (_| (_| |
+ |_|\_\_| |_| |_/___|_| |_|_|\___\__,_|
+           _/ |                        
+          |__/                         
+
+</pre></h1>
+
+<h2>Trenutni naslovi po vrstah:</h2>
+
+<ul>
+    % for vrsta in knjiznica.vrste:
+    <li><strong>{{vrsta.ime}}:</strong> {{vrsta.stanje()}}</li>
+    % end
+    <li>
+        <form action="/dodaj-vrsto/" method="POST">
+            <input type="text" id="ime" name="ime">
+            <input type="submit" value="dodaj novo vrsto">
+        </form> 
+    </li>
+</ul>
+
+<h2>Vnosi:</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>datum</th>
+            <th>naslov</th>
+            <th>avtor</th>
+            <th>vrsta</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <form action="/dodaj-vnos/" method="POST"> 
+            <tr>
+                <td></td>
+                <td><input type="text" id="naslov" name="naslov"></td>
+                <td><input type="text" id="avtor" name="avtor"></td>
+                <td>
+                    <select name="vrsta" id="vrsta">
+                        <option disabled selected> -- izberi vrsto -- </option>
+                        % for vrsta in knjiznica.vrste:
+                        <option value="{{vrsta.ime}}">{{vrsta.ime}}</option>
+                        % end 
+                    </select>
+                </td>
+                <td><input type="submit" value="dodaj nov vnos"></td>
+            </tr>
+            % for vnos in sorted(knjiznica.vnosi, reverse=True):
+            <tr>
+                <td>{{vnos.datum}}</td>
+                <td>{{vnos.naslov}}</td>
+                <td>{{vnos.avtor}}</td>
+                <td>{{vnos.vrsta.ime}}</td>
+                <td></td>
+            </tr>
+            % end
+        </form>
+    </tbody>
+</table>
+
+

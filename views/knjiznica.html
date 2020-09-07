@@ -1,70 +1,83 @@
+% rebase('base.html', izbrani_zavihek='knjiznica')
 
-
-<h1><pre>
-  _  __      _ _           _           
- | |/ /     (_|_)         (_)          
- | ' / _ __  _ _ _____ __  _  ___ __ _ 
- |  | | '_ \| | |_  / '_ \| |/ __/ _` |
- | . \| | | | | |/ /| | | | | (_| (_| |
- |_|\_\_| |_| |_/___|_| |_|_|\___\__,_|
-           _/ |                        
-          |__/                         
-
-</pre></h1>
-
-<h2>Trenutni naslovi po vrstah:</h2>
-
-<ul>
-    % for vrsta in knjiznica.vrste:
-    <li><strong>{{vrsta.ime}}:</strong> {{vrsta.stanje()}}</li>
-    % end
-    <li>
+<div class="columns">
+  <div class="column is-one-fifth">
+    <nav class="panel">
+      <p class="panel-heading">
+        <i class="fas fa-bookmark"></i>
+        Knjige po vrstah
+      </p>
+      % for vrsta in knjiznica.vrste:
+      % include('_prikaz_stanja.html', ime=vrsta.ime, stanje=vrsta.stanje())
+      % end
+      <div class="panel-block">
         <form action="/dodaj-vrsto/" method="POST">
-            <input type="text" id="ime" name="ime">
-            <input type="submit" value="dodaj novo vrsto">
-        </form> 
-    </li>
-</ul>
-
-<h2>Vnosi:</h2>
-
-<table>
-    <thead>
-        <tr>
-            <th>datum</th>
-            <th>naslov</th>
-            <th>avtor</th>
-            <th>vrsta</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <form action="/dodaj-vnos/" method="POST"> 
-            <tr>
-                <td></td>
-                <td><input type="text" id="naslov" name="naslov"></td>
-                <td><input type="text" id="avtor" name="avtor"></td>
-                <td>
-                    <select name="vrsta" id="vrsta">
-                        <option disabled selected> -- izberi vrsto -- </option>
-                        % for vrsta in knjiznica.vrste:
-                        <option value="{{vrsta.ime}}">{{vrsta.ime}}</option>
-                        % end 
-                    </select>
-                </td>
-                <td><input type="submit" value="dodaj nov vnos"></td>
-            </tr>
-            % for vnos in sorted(knjiznica.vnosi, reverse=True):
-            <tr>
-                <td>{{vnos.datum}}</td>
-                <td>{{vnos.naslov}}</td>
-                <td>{{vnos.avtor}}</td>
-                <td>{{vnos.vrsta.ime}}</td>
-                <td></td>
-            </tr>
-            % end
+          <div class="field has-addons">
+            <div class="control">
+              <input class="input is-small" type="text" placeholder="ime vrste" name="ime">
+            </div>
+            <div class="control">
+              <input type="submit" class="button is-small" value="dodaj vrsto">
+            </div>
+          </div>
         </form>
-    </tbody>
-</table>
+      </div>
+    </nav>
+  </div>
+
+  <div class="column">
+    <table class="table is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th>datum</th>
+          <th>naslov</th>
+          <th>avtor</th>
+          <th>vrsta</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <form action="/dodaj-vnos/" method="POST">
+          <tr>
+            <td></td>
+            <td>
+              <div class="control has-icons-left">
+                <input class="input is-small" type="text" name="naslov" placeholder="naslov">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-bars"></i>
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="control has-icons-left">
+                <input class="input is-small" type="text" name="avtor" placeholder="avtor">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-pen"></i>
+                </span>
+              </div>
+            </td>
+            <td>
+              % include('_izberi_vrsto.html', name='vrsta')
+            </td>
+            <td>
+              <div class="control">
+                <button class="button is-info is-small">dodaj vnos</button>
+              </div>
+            </td>
+          </tr>
+        </form>
+        % for vnos in sorted(knjiznica.vnosi, reverse=True):
+        <tr>
+          <td>{{vnos.datum}}</td>
+          <td>{{vnos.naslov}}</td>
+          <td>{{vnos.avtor}}</td>
+          <td>{{vnos.vrsta.ime}}</td>
+          <td></td>
+        </tr>
+        % end
+      </tbody>
+    </table>
+  </div>
+</div>
 
 
