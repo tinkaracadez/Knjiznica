@@ -1,26 +1,64 @@
 % rebase('base.html')
 
-<form method="POST">
-  <div class="control">
-    <input class="input" type="text" placeholder="uporabniško ime" name="uporabnisko_ime">
-  </div>
-  <div class="control">
-    <input class="input" type="password" placeholder="geslo" name="geslo">
-  </div>
-  <div class="control">
-    <input type="submit" class="button" value="prijavi se">
-  </div>
-</form>
+<p>
+Če si že registriran/a, se tu lahko prijaviš v program:
+</p>
+
+<br></br>
 
 <form method="POST">
-  <input type="hidden" name="nov_racun">
-  <div class="control">
-    <input class="input" type="text" placeholder="uporabniško ime" name="uporabnisko_ime">
-  </div>
-  <div class="control">
-    <input class="input" type="password" placeholder="geslo" name="geslo">
-  </div>
-  <div class="control">
-    <input type="submit" class="button" value="registriraj se">
-  </div>
+    <div class="field">
+        <label class="label">Uporabniško ime</label>
+        <div class="control has-icons-left">
+            <input class="input" type="text" placeholder="uporabniško ime" name="uporabnisko_ime">
+            <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+            </span>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Geslo</label>
+        <div class="control has-icons-left">
+            <input class="input" type="password" placeholder="geslo" name="geslo">
+            <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+            </span>
+        </div>
+    </div>
+    <div class="control">
+        <input type="submit" class="button" value="prijavi se">
+    </div>
+</form>
+
+<br></br>
+
+<p>
+Tu si lahko ustvariš nov račun v programu Knjižnica:
+</p>
+
+<br></br>
+
+<form method="POST">
+    <div class="field">
+        <label class="label">Uporabniško ime</label>
+        <input type="hidden" name="nov_racun">
+        <div class="control has-icons-left">
+            <input class="input" type="text" placeholder="uporabniško ime" name="uporabnisko_ime">
+            <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+            </span>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Geslo</label>
+        <div class="control has-icons-left">
+            <input class="input" type="password" placeholder="geslo" name="geslo">
+            <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+            </span>
+        </div>
+    </div>
+    <div class="control">
+        <input type="submit" class="button" value="registriraj se">
+    </div>
 </form>
