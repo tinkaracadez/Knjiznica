@@ -1,0 +1,19 @@
+{
+    "uporabnisko_ime": "tinkara",
+    "zasifrirano_geslo": "b0753ffdb21af5963235b05be030593986e3a1c929c2754754354f672a5de154bc6a2c32f447d9c342e592e194efd682cdeaacc7ca5c71ec3bbd35c5c7b0472c",
+    "knjiznica": {
+        "vrste": [
+            {
+                "ime": "romantièni"
+            }
+        ],
+        "vnosi": [
+            {
+                "naslov": "Krive so zvezde",
+                "avtor": "John Green",
+                "vrsta": "romantièni",
+                "datum": "2020-09-08"
+            }
+        ]
+    }
+}
